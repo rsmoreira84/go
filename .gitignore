@@ -1,0 +1,17 @@
+# Compiled binaries (from `go build`)
+/ch*/ch*
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Go coverage output
+*.out
+
+# Editor/OS junk
+.DS_Store
+.vscode/
