@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"strings"
 	"time"
@@ -132,7 +133,8 @@ func duplicatedLines1(w io.Writer) {
 	fmt.Fprintln(w, "Execution time:", time.Since(start))
 }
 
-// duplicatedLines2 prints all lines from the specified files (or standard input if no files are specified) that appear more than once, along with their counts.
+// duplicatedLines2 prints all lines from the specified files (or standard input if no files are specified)
+// that appear more than once, along with their counts.
 // This function reads lines from the specified files (or standard input) and counts their occurrences.
 // It then prints only the lines that appear more than once, along with their counts.
 // To run it the user needs to inform the file to be checked after the command name, for example:
@@ -176,7 +178,32 @@ func countLines(f *os.File, counts map[string]int) {
 }
 
 func duplicatedLines3(w io.Writer) {
+	fmt.Println("Duplicated Lines 3")
+
 	start := time.Now()
+
+	counts := make(map[string]int)
+
+	fmt.Println("Files: ", strings.Join(os.Args[2:], " - "))
+
+	for _, filename := range os.Args[2:] {
+		fmt.Println("Reading file: ", filename)
+		data, err := ioutil.ReadFile(filename)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "dup3: %v\n", err)
+			continue
+		}
+		for _, line := range strings.Split(string(data), "\n") {
+			fmt.Println(line)
+			counts[line]++
+		}
+	}
+
+	for line, n := range counts {
+		if n > 1 {
+			fmt.Printf("%d\t%s\n", n, line)
+		}
+	}
 
 	fmt.Fprintln(w, "Execution time: ", time.Since(start))
 }
